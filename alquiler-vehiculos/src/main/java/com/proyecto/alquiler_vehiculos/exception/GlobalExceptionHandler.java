@@ -1,0 +1,72 @@
+package com.proyecto.alquiler_vehiculos.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
+
+// @RestControllerAdvice intercepta TODAS las excepciones
+// de todos los controllers y devuelve JSON consistente.
+// Sin esto Spring devuelve páginas HTML de error feas.
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    // Captura errores de @Valid (@NotBlank, @Email, @Pattern, etc.)
+    // Devuelve exactamente qué campo falló y por qué
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Map<String, Object>> handleValidacion(
+            MethodArgumentNotValidException ex) {
+
+        Map<String, String> errores = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach(error -> {
+            String campo = ((FieldError) error).getField();
+            String mensaje = error.getDefaultMessage();
+            errores.put(campo, mensaje);
+        });
+
+        return ResponseEntity.badRequest().body(Map.of(
+                "timestamp", LocalDateTime.now().toString(),
+                "status", 400,
+                "error", "Validación fallida",
+                "campos", errores
+        ));
+    }
+
+    // Recurso no encontrado → HTTP 404
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleNotFound(
+            ResourceNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                "timestamp", LocalDateTime.now().toString(),
+                "status", 404,
+                "error", ex.getMessage()
+        ));
+    }
+
+    // Regla de negocio violada → HTTP 400
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Map<String, Object>> handleBusiness(
+            BusinessException ex) {
+        return ResponseEntity.badRequest().body(Map.of(
+                "timestamp", LocalDateTime.now().toString(),
+                "status", 400,
+                "error", ex.getMessage()
+        ));
+    }
+
+    // Cualquier otro error inesperado → HTTP 500
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
+                "timestamp", LocalDateTime.now().toString(),
+                "status", 500,
+                "error", "Error interno: " + ex.getMessage()
+        ));
+    }
+}
