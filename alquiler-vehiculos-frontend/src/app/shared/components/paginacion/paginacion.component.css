@@ -1,0 +1,13 @@
+.pagination .page-link {
+    border-radius: 8px;
+    margin: 0 2px;
+    color: #0962e5;
+    cursor: pointer;
+  }
+  .pagination .page-item.active .page-link {
+    background-color: #0962e5;
+    border-color: #0962e5;
+  }
+  .pagination .page-item.disabled .page-link {
+    cursor: not-allowed;
+  }

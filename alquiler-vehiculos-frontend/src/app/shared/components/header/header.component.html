@@ -1,0 +1,47 @@
+<header class="boder-seccion">
+    <div class="row d-flex justify-content-between align-items-center">
+  
+      <!-- Buscador -->
+      <div class="col">
+        <div class="header__search">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+               viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+          </svg>
+          <input class="form-control"
+                 type="text"
+                 placeholder="Buscar...">
+        </div>
+      </div>
+  
+      <!-- Usuario y logout -->
+      <div class="col-auto">
+        <ul class="nav nav-pills align-items-center">
+  
+          <!-- Usuario -->
+          <li class="nav-item">
+            <div class="header__user">
+              <div class="header__user__circle">{{ inicial }}</div>
+              <div class="header__user__detalle">
+                <h5>{{ username }}</h5>
+                <small>Administrador</small>
+              </div>
+            </div>
+          </li>
+  
+          <!-- Cerrar sesión -->
+          <li class="nav-item ms-3">
+            <button class="btn btn-outline-danger btn-sm"
+                    style="border-radius:26px"
+                    (click)="cerrarSesion()">
+              <i class="bi bi-box-arrow-right me-1"></i>
+              Salir
+            </button>
+          </li>
+  
+        </ul>
+      </div>
+  
+    </div>
+  </header>

@@ -1,0 +1,153 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Home</li>
+      <li class="breadcrumb-item">
+        <a routerLink="/home/vehiculos/list">Vehículos</a>
+      </li>
+      <li class="breadcrumb-item active">
+        {{ id ? 'Editar' : 'Nuevo' }} Vehículo
+      </li>
+    </ol>
+  </nav>
+  
+  <div class="row mb-3">
+    <div class="col">
+      <h2 class="main__title">{{ id ? 'Editar' : 'Nuevo' }} Vehículo</h2>
+      <p class="main__description">
+        {{ id ? 'Actualiza los datos del vehículo' : 'Registra un nuevo vehículo' }}
+      </p>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+  
+          <form [formGroup]="vehiculoForm" (ngSubmit)="onSubmit()">
+  
+            <!-- Placa -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Placa <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                formControlName="placa"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': campoInvalido('placa'),
+                  'is-valid': campoValido('placa')
+                }"
+                placeholder="Ej: ABC-123"
+                maxlength="7">
+              @if (cf['placa'].hasError('placaInvalida') && campoInvalido('placa')) {
+                <div class="invalid-feedback">
+                  Formato inválido. Debe ser ABC-123
+                </div>
+              }
+              @if (cf['placa'].hasError('required') && campoInvalido('placa')) {
+                <div class="invalid-feedback">La placa es obligatoria</div>
+              }
+            </div>
+  
+            <!-- Marca y Modelo en fila -->
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <label class="form-label fw-semibold">
+                  Marca <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  formControlName="marca"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': campoInvalido('marca'),
+                    'is-valid': campoValido('marca')
+                  }"
+                  placeholder="Ej: Toyota">
+                @if (cf['marca'].hasError('required') && campoInvalido('marca')) {
+                  <div class="invalid-feedback">La marca es obligatoria</div>
+                }
+              </div>
+  
+              <div class="col-sm-6 mb-3">
+                <label class="form-label fw-semibold">
+                  Modelo <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  formControlName="modelo"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': campoInvalido('modelo'),
+                    'is-valid': campoValido('modelo')
+                  }"
+                  placeholder="Ej: Corolla">
+                @if (cf['modelo'].hasError('required') && campoInvalido('modelo')) {
+                  <div class="invalid-feedback">El modelo es obligatorio</div>
+                }
+              </div>
+            </div>
+  
+            <!-- Precio por día -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Precio por día (S/) <span class="text-danger">*</span>
+              </label>
+              <input
+                type="number"
+                formControlName="precioPorDia"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': campoInvalido('precioPorDia'),
+                  'is-valid': campoValido('precioPorDia')
+                }"
+                placeholder="Ej: 80"
+                min="1">
+              @if (cf['precioPorDia'].hasError('required') && campoInvalido('precioPorDia')) {
+                <div class="invalid-feedback">El precio es obligatorio</div>
+              }
+              @if (cf['precioPorDia'].hasError('min') && campoInvalido('precioPorDia')) {
+                <div class="invalid-feedback">El precio debe ser mayor a 0</div>
+              }
+            </div>
+  
+            <!-- Estado (solo en edición) -->
+            @if (id) {
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Estado</label>
+                <select formControlName="estado" class="form-select">
+                  @for (estado of estados; track estado) {
+                    <option [value]="estado">{{ estado }}</option>
+                  }
+                </select>
+              </div>
+            }
+  
+            <!-- Botones -->
+            <div class="d-flex gap-2 mt-4">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="cargando">
+                @if (cargando) {
+                  <span class="spinner-border spinner-border-sm me-1"></span>
+                }
+                <i class="bi bi-save me-1"></i>
+                {{ id ? 'Actualizar' : 'Guardar' }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="cancelar()">
+                <i class="bi bi-x-circle me-1"></i>
+                Cancelar
+              </button>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

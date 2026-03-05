@@ -1,0 +1,166 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Home</li>
+      <li class="breadcrumb-item">
+        <a routerLink="/home/alquileres/list">Alquileres</a>
+      </li>
+      <li class="breadcrumb-item active">
+        {{ id ? 'Editar' : 'Nuevo' }} Alquiler
+      </li>
+    </ol>
+  </nav>
+  
+  <div class="row mb-3">
+    <div class="col">
+      <h2 class="main__title">{{ id ? 'Editar' : 'Nuevo' }} Alquiler</h2>
+      <p class="main__description">
+        {{ id ? 'Actualiza el alquiler' : 'Registra un nuevo alquiler de vehículo' }}
+      </p>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-8 col-lg-7">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+  
+          <form [formGroup]="alquilerForm" (ngSubmit)="onSubmit()">
+  
+            <!-- Cliente -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Cliente <span class="text-danger">*</span>
+              </label>
+              <select
+                formControlName="clienteId"
+                class="form-select"
+                [ngClass]="{
+                  'is-invalid': campoInvalido('clienteId'),
+                  'is-valid': campoValido('clienteId')
+                }">
+                <option value="">Seleccione un cliente...</option>
+                @for (cliente of clientes; track cliente.id) {
+                  <option [value]="cliente.id">
+                    {{ cliente.nombre }} - {{ cliente.dni }}
+                  </option>
+                }
+              </select>
+              @if (cf['clienteId'].hasError('required') && campoInvalido('clienteId')) {
+                <div class="invalid-feedback">Seleccione un cliente</div>
+              }
+            </div>
+  
+            <!-- Vehículo -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Vehículo <span class="text-danger">*</span>
+              </label>
+              <select
+                formControlName="vehiculoId"
+                class="form-select"
+                [ngClass]="{
+                  'is-invalid': campoInvalido('vehiculoId'),
+                  'is-valid': campoValido('vehiculoId')
+                }">
+                <option value="">Seleccione un vehículo...</option>
+                @for (vehiculo of vehiculos; track vehiculo.id) {
+                  <option [value]="vehiculo.id">
+                    {{ vehiculo.placa }} - {{ vehiculo.marca }}
+                    {{ vehiculo.modelo }} (S/ {{ vehiculo.precioPorDia }}/día)
+                  </option>
+                }
+              </select>
+              @if (cf['vehiculoId'].hasError('required') && campoInvalido('vehiculoId')) {
+                <div class="invalid-feedback">Seleccione un vehículo</div>
+              }
+            </div>
+  
+            <!-- Fechas -->
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <label class="form-label fw-semibold">
+                  Fecha Inicio <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  formControlName="fechaInicio"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': campoInvalido('fechaInicio'),
+                    'is-valid': campoValido('fechaInicio')
+                  }">
+                @if (cf['fechaInicio'].hasError('required') && campoInvalido('fechaInicio')) {
+                  <div class="invalid-feedback">La fecha de inicio es obligatoria</div>
+                }
+              </div>
+  
+              <div class="col-sm-6 mb-3">
+                <label class="form-label fw-semibold">
+                  Fecha Fin <span class="text-danger">*</span>
+                </label>
+                <input
+                  type="date"
+                  formControlName="fechaFin"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid': campoInvalido('fechaFin') ||
+                                  (alquilerForm.hasError('fechaFinInvalida') && submitted),
+                    'is-valid': campoValido('fechaFin')
+                  }">
+                @if (cf['fechaFin'].hasError('required') && campoInvalido('fechaFin')) {
+                  <div class="invalid-feedback">La fecha fin es obligatoria</div>
+                }
+                @if (alquilerForm.hasError('fechaFinInvalida') && submitted) {
+                  <div class="invalid-feedback d-block">
+                    La fecha fin debe ser posterior a la fecha inicio
+                  </div>
+                }
+              </div>
+            </div>
+  
+            <!-- Estado (solo edición) -->
+            @if (id) {
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Estado</label>
+                <select formControlName="estado" class="form-select">
+                  @for (estado of estados; track estado) {
+                    <option [value]="estado">{{ estado }}</option>
+                  }
+                </select>
+              </div>
+            }
+  
+            <!-- Total estimado -->
+            @if (totalEstimado > 0) {
+              <div class="alert alert-info mb-3">
+                <i class="bi bi-calculator me-2"></i>
+                <strong>Total estimado: S/ {{ totalEstimado | number:'1.2-2' }}</strong>
+              </div>
+            }
+  
+            <!-- Botones -->
+            <div class="d-flex gap-2 mt-4">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="cargando">
+                @if (cargando) {
+                  <span class="spinner-border spinner-border-sm me-1"></span>
+                }
+                <i class="bi bi-save me-1"></i>
+                {{ id ? 'Actualizar' : 'Guardar' }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="cancelar()">
+                <i class="bi bi-x-circle me-1"></i>
+                Cancelar
+              </button>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

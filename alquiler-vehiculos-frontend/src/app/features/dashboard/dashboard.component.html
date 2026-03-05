@@ -1,0 +1,70 @@
+<!-- Título -->
+<div class="row mb-4">
+    <div class="col">
+      <h2 class="main__title">Dashboard</h2>
+      <p class="main__description">
+        Panel de control del sistema de alquiler de vehículos 🚗
+      </p>
+    </div>
+  </div>
+  
+  <!-- Cards de totales -->
+  <div class="row">
+  
+    <!-- Card 1 - Clientes -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card__panel active">
+        <section>
+          <h4 class="card__title">Total Clientes</h4>
+          <div class="card__number">{{ totalClientes }}</div>
+          <span class="card__description">Clientes registrados</span>
+        </section>
+        <section>
+          <i class="bi bi-people card__svg"></i>
+        </section>
+      </div>
+    </div>
+  
+    <!-- Card 2 - Vehículos -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card__panel">
+        <section>
+          <h4 class="card__title">Total Vehículos</h4>
+          <div class="card__number">{{ totalVehiculos }}</div>
+          <span class="card__description">Vehículos registrados</span>
+        </section>
+        <section>
+          <i class="bi bi-car-front card__svg"></i>
+        </section>
+      </div>
+    </div>
+  
+    <!-- Card 3 - Disponibles -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card__panel">
+        <section>
+          <h4 class="card__title">Disponibles</h4>
+          <div class="card__number">{{ vehiculosDisponibles }}</div>
+          <span class="card__description">Vehículos disponibles</span>
+        </section>
+        <section>
+          <i class="bi bi-check-circle card__svg"></i>
+        </section>
+      </div>
+    </div>
+  
+    <!-- Card 4 - Alquileres activos -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="card__panel">
+        <section>
+          <h4 class="card__title">Alquileres Activos</h4>
+          <div class="card__number">{{ alquileresActivos }}</div>
+          <span class="card__description">En curso ahora</span>
+        </section>
+        <section>
+          <i class="bi bi-calendar-check card__svg"></i>
+        </section>
+      </div>
+    </div>
+  
+  </div>

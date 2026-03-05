@@ -1,0 +1,23 @@
+.table th {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+.table td {
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+.badge {
+  font-size: 0.75rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 26px;
+}
+.pagination .page-link {
+  border-radius: 8px;
+  margin: 0 2px;
+  color: #0962e5;
+  cursor: pointer;
+}
+.pagination .page-item.active .page-link {
+  background-color: #0962e5;
+  border-color: #0962e5;
+}

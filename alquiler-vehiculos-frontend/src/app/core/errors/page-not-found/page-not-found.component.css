@@ -1,0 +1,29 @@
+.notfound {
+    text-align: center;
+    padding: 5rem 1rem;
+  }
+  
+  .notfound__icon {
+    font-size: 5rem;
+    color: #0962E5;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  
+  .notfound__code {
+    font-size: 6rem;
+    font-weight: 700;
+    color: #1A3044;
+    margin-bottom: 0;
+  }
+  
+  .notfound__mensaje {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 2rem;
+  }
+  
+  .notfound__btn {
+    border-radius: 26px;
+    padding: .6rem 2rem;
+  }

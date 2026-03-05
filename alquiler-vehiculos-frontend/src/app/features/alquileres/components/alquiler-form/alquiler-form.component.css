@@ -1,0 +1,27 @@
+.card {
+  border-radius: 12px;
+  border: none;
+}
+.form-label {
+  font-size: 0.875rem;
+  color: #1a3044;
+}
+.form-control,
+.form-select {
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: #0962e5;
+  box-shadow: 0 0 0 0.2rem rgba(9, 98, 229, 0.1);
+}
+.btn {
+  border-radius: 8px;
+  font-size: 0.875rem;
+  padding: 0.5rem 1.25rem;
+}
+.alert {
+  border-radius: 8px;
+  font-size: 0.875rem;
+}

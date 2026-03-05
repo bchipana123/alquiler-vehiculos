@@ -1,0 +1,159 @@
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item">Home</li>
+      <li class="breadcrumb-item">
+        <a routerLink="/home/clientes/list">Clientes</a>
+      </li>
+      <li class="breadcrumb-item active">
+        {{ id ? 'Editar' : 'Nuevo' }} Cliente
+      </li>
+    </ol>
+  </nav>
+  
+  <!-- Título -->
+  <div class="row mb-3">
+    <div class="col">
+      <h2 class="main__title">
+        {{ id ? 'Editar' : 'Nuevo' }} Cliente
+      </h2>
+      <p class="main__description">
+        {{ id ? 'Actualiza los datos del cliente' : 'Registra un nuevo cliente' }}
+      </p>
+    </div>
+  </div>
+  
+  <!-- Formulario -->
+  <div class="row">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-sm">
+        <div class="card-body p-4">
+  
+          <form [formGroup]="clienteForm" (ngSubmit)="onSubmit()">
+  
+            <!-- Nombre -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Nombre completo <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                formControlName="nombre"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': campoInvalido('nombre'),
+                  'is-valid': campoValido('nombre')
+                }"
+                placeholder="Ej: Juan Pérez García">
+  
+              <!-- Mensajes de error -->
+              @if (cf['nombre'].hasError('required') && campoInvalido('nombre')) {
+                <div class="invalid-feedback">El nombre es obligatorio</div>
+              }
+              @if (cf['nombre'].hasError('minlength') && campoInvalido('nombre')) {
+                <div class="invalid-feedback">Mínimo 2 caracteres</div>
+              }
+              @if (cf['nombre'].hasError('maxlength') && campoInvalido('nombre')) {
+                <div class="invalid-feedback">Máximo 100 caracteres</div>
+              }
+            </div>
+  
+            <!-- DNI -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                DNI <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                formControlName="dni"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': campoInvalido('dni'),
+                  'is-valid': campoValido('dni')
+                }"
+                placeholder="Ej: 12345678"
+                maxlength="8">
+  
+              @if (cf['dni'].hasError('required') && campoInvalido('dni')) {
+                <div class="invalid-feedback">El DNI es obligatorio</div>
+              }
+              @if (cf['dni'].hasError('dniInvalido') && campoInvalido('dni')) {
+                <div class="invalid-feedback">El DNI debe tener exactamente 8 dígitos</div>
+              }
+            </div>
+  
+            <!-- Email -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Email <span class="text-danger">*</span>
+              </label>
+              <input
+                type="email"
+                formControlName="email"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': campoInvalido('email'),
+                  'is-valid': campoValido('email')
+                }"
+                placeholder="Ej: juan@mail.com">
+  
+              @if (cf['email'].hasError('required') && campoInvalido('email')) {
+                <div class="invalid-feedback">El email es obligatorio</div>
+              }
+              @if (cf['email'].hasError('email') && campoInvalido('email')) {
+                <div class="invalid-feedback">El email no tiene formato válido</div>
+              }
+            </div>
+  
+            <!-- Teléfono -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">
+                Teléfono <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                formControlName="telefono"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': campoInvalido('telefono'),
+                  'is-valid': campoValido('telefono')
+                }"
+                placeholder="Ej: 987654321"
+                maxlength="9">
+  
+              @if (cf['telefono'].hasError('required') && campoInvalido('telefono')) {
+                <div class="invalid-feedback">El teléfono es obligatorio</div>
+              }
+              @if (cf['telefono'].hasError('pattern') && campoInvalido('telefono')) {
+                <div class="invalid-feedback">
+                  El teléfono debe empezar con 9 y tener 9 dígitos
+                </div>
+              }
+            </div>
+  
+            <!-- Botones -->
+            <div class="d-flex gap-2 mt-4">
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="cargando">
+                @if (cargando) {
+                  <span class="spinner-border spinner-border-sm me-1"></span>
+                }
+                <i class="bi bi-save me-1"></i>
+                {{ id ? 'Actualizar' : 'Guardar' }}
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                (click)="cancelar()">
+                <i class="bi bi-x-circle me-1"></i>
+                Cancelar
+              </button>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
