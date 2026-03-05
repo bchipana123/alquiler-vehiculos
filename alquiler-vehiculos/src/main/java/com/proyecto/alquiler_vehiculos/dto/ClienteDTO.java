@@ -2,12 +2,9 @@ package com.proyecto.alquiler_vehiculos.dto;
 
 import jakarta.validation.constraints.*;
 
-// record = clase especial de Java 21 que genera automáticamente
-// getters, constructor, equals, hashCode y toString.
-// Perfecta para DTOs porque son objetos que solo transportan datos.
 public record ClienteDTO(
 
-        Long id,  // null cuando creas, tiene valor cuando editas
+        Long id,
 
         @NotBlank(message = "El nombre es obligatorio")
         @Size(min = 2, max = 100, message = "El nombre debe tener entre 2 y 100 caracteres")

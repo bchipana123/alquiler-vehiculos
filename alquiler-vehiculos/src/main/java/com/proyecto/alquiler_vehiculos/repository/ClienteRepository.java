@@ -10,10 +10,8 @@ import java.util.Optional;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    // Busca un cliente por su DNI exacto
     Optional<Cliente> findByDni(String dni);
 
-    // ¿Existe algún cliente con ese DNI?
     boolean existsByDni(String dni);
 
     // ¿Existe OTRO cliente con ese DNI? (para validar en edición)
@@ -21,7 +19,6 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     boolean existsByDniAndIdNot(String dni, Long id);
 
     // Búsqueda por nombre o DNI, sin distinguir mayúsculas
-    // JPQL: como SQL pero usa nombres de clases Java, no tablas
     @Query("SELECT c FROM Cliente c WHERE " +
             "LOWER(c.nombre) LIKE LOWER(CONCAT('%', :q, '%')) OR " +
             "c.dni LIKE CONCAT('%', :q, '%')")

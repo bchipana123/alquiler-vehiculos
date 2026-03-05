@@ -18,8 +18,6 @@ public class AlquilerController {
         this.alquilerService = alquilerService;
     }
 
-    // GET /api/alquileres?estado=ACTIVO
-    // GET /api/alquileres?busqueda=juan
     @GetMapping
     public ResponseEntity<PageResponseDTO<AlquilerDTO>> listar(
             @RequestParam(defaultValue = "0")           int page,
@@ -33,13 +31,11 @@ public class AlquilerController {
                 alquilerService.listar(page, size, sortBy, sortDir, busqueda, estado));
     }
 
-    // GET /api/alquileres/5
     @GetMapping("/{id}")
     public ResponseEntity<AlquilerDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(alquilerService.buscarPorId(id));
     }
 
-    // POST /api/alquileres
     @PostMapping
     public ResponseEntity<AlquilerDTO> crear(
             @Valid @RequestBody AlquilerDTO alquilerDTO) {
@@ -48,7 +44,6 @@ public class AlquilerController {
                 .body(alquilerService.crear(alquilerDTO));
     }
 
-    // PUT /api/alquileres/5
     @PutMapping("/{id}")
     public ResponseEntity<AlquilerDTO> actualizar(
             @PathVariable Long id,
@@ -56,7 +51,6 @@ public class AlquilerController {
         return ResponseEntity.ok(alquilerService.actualizar(id, alquilerDTO));
     }
 
-    // PATCH /api/alquileres/5 → útil para solo cambiar el estado
     @PatchMapping("/{id}")
     public ResponseEntity<AlquilerDTO> actualizarParcial(
             @PathVariable Long id,
@@ -65,7 +59,6 @@ public class AlquilerController {
                 alquilerService.actualizarParcial(id, alquilerDTO));
     }
 
-    // DELETE /api/alquileres/5
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         alquilerService.eliminar(id);

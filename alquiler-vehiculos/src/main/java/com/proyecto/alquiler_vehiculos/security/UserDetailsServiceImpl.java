@@ -10,8 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// Spring Security usa esta clase para cargar el usuario de la BD
-// cuando alguien intenta hacer login
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -25,13 +23,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
 
-        // Busca el usuario en la BD
         var usuario = usuarioRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(
                         "Usuario no encontrado: " + username));
 
-        // Convierte nuestra entity Usuario en un UserDetails
-        // que Spring Security puede entender
         return new User(
                 usuario.getUsername(),
                 usuario.getPassword(),

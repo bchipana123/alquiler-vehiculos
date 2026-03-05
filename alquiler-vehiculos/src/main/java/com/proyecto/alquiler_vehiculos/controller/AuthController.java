@@ -36,25 +36,19 @@ public class AuthController {
         this.passwordEncoder        = passwordEncoder;
     }
 
-    // POST /api/auth/login
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(
             @Valid @RequestBody LoginRequestDTO request) {
 
-        // Verifica usuario y contraseña contra la BD
-        // Si son incorrectos lanza BadCredentialsException → 401
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.username(), request.password()));
 
-        // Si llegó aquí las credenciales son correctas
         UserDetails userDetails =
                 userDetailsService.loadUserByUsername(request.username());
 
-        // Genera el token JWT
         String token = jwtService.generarToken(userDetails);
 
-        // Busca el usuario para devolver el rol
         Usuario usuario = usuarioRepository
                 .findByUsername(request.username()).orElseThrow();
 
@@ -65,8 +59,6 @@ public class AuthController {
         ));
     }
 
-    // POST /api/auth/registro
-    // Útil para crear el usuario admin inicial
     @PostMapping("/registro")
     public ResponseEntity<String> registro(
             @Valid @RequestBody LoginRequestDTO request) {
@@ -77,7 +69,7 @@ public class AuthController {
 
         Usuario usuario = new Usuario();
         usuario.setUsername(request.username());
-        // Encripta la contraseña antes de guardar
+
         usuario.setPassword(passwordEncoder.encode(request.password()));
         usuario.setRol("ADMIN");
         usuarioRepository.save(usuario);

@@ -27,12 +27,10 @@ public class Alquiler {
     private EstadoAlquiler estado;
 
     // ManyToOne: muchos alquileres pueden tener el mismo cliente
-    // FetchType.LAZY: no carga el cliente de BD hasta que lo necesites (más eficiente)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    // Igual para vehículo
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "vehiculo_id", nullable = false)
     private Vehiculo vehiculo;

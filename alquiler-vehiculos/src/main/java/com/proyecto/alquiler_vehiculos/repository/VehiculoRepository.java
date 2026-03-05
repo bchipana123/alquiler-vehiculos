@@ -10,14 +10,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {
 
-    // ¿Existe un vehículo con esa placa?
     boolean existsByPlaca(String placa);
 
-    // ¿Existe OTRO vehículo con esa placa? (para validar en edición)
     boolean existsByPlacaAndIdNot(String placa, Long id);
 
-    // Filtra vehículos por estado: DISPONIBLE o ALQUILADO
-    // Spring genera el SQL automáticamente por el nombre del método
+    // Filtra vehículos por estado
     Page<Vehiculo> findByEstado(EstadoVehiculo estado, Pageable pageable);
 
     // Búsqueda por marca, modelo o placa

@@ -18,8 +18,6 @@ public class VehiculoController {
         this.vehiculoService = vehiculoService;
     }
 
-    // GET /api/vehiculos?estado=DISPONIBLE
-    // GET /api/vehiculos?busqueda=toyota
     @GetMapping
     public ResponseEntity<PageResponseDTO<VehiculoDTO>> listar(
             @RequestParam(defaultValue = "0")     int page,
@@ -33,13 +31,11 @@ public class VehiculoController {
                 vehiculoService.listar(page, size, sortBy, sortDir, busqueda, estado));
     }
 
-    // GET /api/vehiculos/5
     @GetMapping("/{id}")
     public ResponseEntity<VehiculoDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(vehiculoService.buscarPorId(id));
     }
 
-    // POST /api/vehiculos
     @PostMapping
     public ResponseEntity<VehiculoDTO> crear(
             @Valid @RequestBody VehiculoDTO vehiculoDTO) {
@@ -48,7 +44,6 @@ public class VehiculoController {
                 .body(vehiculoService.crear(vehiculoDTO));
     }
 
-    // PUT /api/vehiculos/5
     @PutMapping("/{id}")
     public ResponseEntity<VehiculoDTO> actualizar(
             @PathVariable Long id,
@@ -56,7 +51,6 @@ public class VehiculoController {
         return ResponseEntity.ok(vehiculoService.actualizar(id, vehiculoDTO));
     }
 
-    // PATCH /api/vehiculos/5
     @PatchMapping("/{id}")
     public ResponseEntity<VehiculoDTO> actualizarParcial(
             @PathVariable Long id,
@@ -65,7 +59,6 @@ public class VehiculoController {
                 vehiculoService.actualizarParcial(id, vehiculoDTO));
     }
 
-    // DELETE /api/vehiculos/5
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         vehiculoService.eliminar(id);

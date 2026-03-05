@@ -10,15 +10,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface AlquilerRepository extends JpaRepository<Alquiler, Long> {
 
-    // Filtra alquileres por estado: ACTIVO, FINALIZADO, CANCELADO
+    // Filtra alquileres por estado
     Page<Alquiler> findByEstado(EstadoAlquiler estado, Pageable pageable);
 
-    // ¿El vehículo ya tiene un alquiler ACTIVO?
     // Regla de negocio: no se puede alquilar un vehículo ya alquilado
     boolean existsByVehiculoIdAndEstado(Long vehiculoId, EstadoAlquiler estado);
 
     // Búsqueda por nombre del cliente o placa del vehículo
-    // JOIN une las 3 tablas para poder filtrar por campos relacionados
     @Query("SELECT a FROM Alquiler a JOIN a.cliente c JOIN a.vehiculo v WHERE " +
             "LOWER(c.nombre) LIKE LOWER(CONCAT('%', :q, '%')) OR " +
             "LOWER(v.placa) LIKE LOWER(CONCAT('%', :q, '%'))")

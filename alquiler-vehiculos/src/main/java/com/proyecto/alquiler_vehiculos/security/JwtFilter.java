@@ -14,8 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
-// Este filtro se ejecuta en CADA petición HTTP
-// Intercepta el token del header y valida si es correcto
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
@@ -35,31 +33,24 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        // Busca el header: Authorization: Bearer eyJhbGci...
         String authHeader = request.getHeader("Authorization");
 
-        // Si no hay header o no empieza con "Bearer ", deja pasar
-        // (el SecurityConfig decidirá si la ruta es pública o no)
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Extrae el token quitando "Bearer "
         String token = authHeader.substring(7);
         String username = jwtService.extraerUsername(token);
 
-        // Si hay username y aún no está autenticado en el contexto
         if (username != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails =
                     userDetailsService.loadUserByUsername(username);
 
-            // Valida que el token sea correcto
             if (jwtService.validarToken(token, userDetails)) {
 
-                // Marca al usuario como autenticado en Spring Security
                 var authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authToken.setDetails(

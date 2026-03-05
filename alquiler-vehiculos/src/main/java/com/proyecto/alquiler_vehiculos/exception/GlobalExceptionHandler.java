@@ -11,14 +11,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
-// @RestControllerAdvice intercepta TODAS las excepciones
-// de todos los controllers y devuelve JSON consistente.
-// Sin esto Spring devuelve páginas HTML de error feas.
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // Captura errores de @Valid (@NotBlank, @Email, @Pattern, etc.)
-    // Devuelve exactamente qué campo falló y por qué
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidacion(
             MethodArgumentNotValidException ex) {
@@ -38,7 +33,7 @@ public class GlobalExceptionHandler {
         ));
     }
 
-    // Recurso no encontrado → HTTP 404
+    // Recurso no encontrado
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotFound(
             ResourceNotFoundException ex) {
@@ -49,7 +44,7 @@ public class GlobalExceptionHandler {
         ));
     }
 
-    // Regla de negocio violada → HTTP 400
+    // Regla de negocio  → HTTP 400
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Map<String, Object>> handleBusiness(
             BusinessException ex) {
@@ -60,7 +55,6 @@ public class GlobalExceptionHandler {
         ));
     }
 
-    // Cualquier otro error inesperado → HTTP 500
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneral(Exception ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
